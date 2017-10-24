@@ -1,0 +1,17 @@
+/.project
+/.settings/
+/.idea
+/.vscode/
+/deploy
+/target
+/build/
+/**/.idea
+*.iml
+out/
+
+### IntelliJ IDEA ###
+.idea
+.idea/
+*.iws
+*.iml
+*.ipr
