@@ -4,9 +4,9 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Chat</title>
+    <title>Interface-Demo(interface-demo.pntbiz.com)</title>
     <style>
-        .chat_log{ width: 95%; height: 200px; }
+        .chat_log{ width: 95%; height: 500px; }
         .name{ width: 10%; }
         .message{ width: 70%; }
         .chat{ width: 10%; }
@@ -22,9 +22,10 @@
     <!--<input type="submit" class="chat" value="chat"/>-->
 <!--</form>-->
 <div id="box" class="box">
-    <script src="/socket.io/socket.io.js"></script> <!-- 1 -->
-    <script src="//code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/jquery.js"></script>
     <script>
+        var count = 1;
         var socket = io(); //1
         $('#chat').on('submit', function(e){ //2
             socket.emit('send message', $('#name').val(), $('#message').val());
@@ -33,8 +34,15 @@
             e.preventDefault();
         });
         socket.on('receive message', function(msg){ //3
+
+            if(count > 10) {
+                $('#chatLog').html('');
+                count = 0;
+            }
+
             $('#chatLog').append(msg+'\n');
             $('#chatLog').scrollTop($('#chatLog')[0].scrollHeight);
+            count++;
         });
         socket.on('change name', function(name){ //4
             $('#name').val(name);
