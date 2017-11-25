@@ -1,17 +1,36 @@
 // server.js
 var express = require('express');
+var router = express.Router();
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var bodyParser = require('body-parser');
 var sleep = require('system-sleep');
+var API_Call = require('./API_Call')('another');
 
 app.use(express.static('static'));
 app.use(bodyParser.json());
 
+
+app.get('/api', function (req, res) {
+
+    var user_id = req.user_id,
+        password = req.password;
+
+    API_Call.login(user_id, password, function (err, result) {
+        if (!err) {
+            res.json(result);
+        } else {
+            res.json(err);
+        }
+    });
+});
+
+
 app.get('/',function(req, res){  //2
     res.sendFile(__dirname + '/client.html');
 });
+
 
 app.post('/beacon',function(req, res){  //2
     io.emit("receive message", 'SUUID : '+req.body.SUUID+', 위도 : '+req.body.lat+', 경도 :'+req.body.lng+'\n\n');
